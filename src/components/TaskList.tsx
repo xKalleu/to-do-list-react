@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 
 import '../styles/tasklist.scss'
 
 import { FiTrash, FiCheckSquare } from 'react-icons/fi'
+import { VscClearAll } from "react-icons/vsc";
+import { MdLayersClear } from "react-icons/md";
+import { FaCheckDouble } from "react-icons/fa";
 
 interface Task {
   id: number;
@@ -13,28 +16,69 @@ interface Task {
 export function TaskList() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState('');
+  
+  const newTask = {
+    id: Math.random(),
+    title: newTaskTitle,
+    isComplete: false,
+  };
 
   function handleCreateNewTask() {
-    // Crie uma nova task com um id random, não permita criar caso o título seja vazio.
+    if (!newTaskTitle) return;
+
+    setTasks((oldState) => [...oldState, newTask]);
+    setNewTaskTitle("");
   }
 
   function handleToggleTaskCompletion(id: number) {
-    // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID
+    const newtask = tasks.map((task) =>
+      task.id === id
+        ? {
+            ...task,
+            isComplete: !task.isComplete,
+          }
+        : task
+    );
+
+    setTasks(newtask);
   }
 
   function handleRemoveTask(id: number) {
-    // Remova uma task da listagem pelo ID
+    const tasksFiltered = tasks.filter((task) => task.id !== id);
+    setTasks(tasksFiltered);
+  }
+
+  function handleCompletedAll() {
+    const newtask = tasks.map((task) =>
+    task.isComplete !== true
+        ? {
+            ...task,
+            isComplete: !task.isComplete,
+          }
+        : task
+    );
+
+    setTasks(newtask);
+  }
+
+  function handleResetAllComplete() {
+    const filteredNotCompleted = tasks.filter(task => task.isComplete !== true)
+    setTasks(filteredNotCompleted)
+  }
+
+  function handleResetAll() {
+    setTasks([])
   }
 
   return (
     <section className="task-list container">
       <header>
-        <h2>Minhas tasks</h2>
+        <h2>My Tasks</h2>
 
         <div className="input-group">
           <input 
             type="text" 
-            placeholder="Adicionar novo todo" 
+            placeholder="Add Task" 
             onChange={(e) => setNewTaskTitle(e.target.value)}
             value={newTaskTitle}
           />
@@ -68,6 +112,28 @@ export function TaskList() {
           ))}
           
         </ul>
+          <div className="options-task">
+            <div>
+              <button type="button" onClick={() => handleCompletedAll()}>
+                <FaCheckDouble size={16} /> 
+              </button>
+              <span>Completed All</span>              
+            </div>
+
+            <div>
+              <button type="button" onClick={() => handleResetAllComplete()}>
+                <MdLayersClear size={16} /> 
+              </button>
+              <span>Clear done</span>              
+            </div>
+
+            <div>
+              <button type="button" onClick={() => handleResetAll()}>
+                <VscClearAll size={16} /> 
+              </button>
+              <span>Clear All</span>              
+            </div>
+          </div>
       </main>
     </section>
   )

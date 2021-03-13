@@ -1,23 +1,27 @@
 :root {
-  --blue: #273FAD;
-  --green: #3FAD27;
-  --red: 	#ad273f;
+  --blue:  #1E2640;
+  --ocean: #0000FF;
+  --green: #59981A;
+  --red: 	#922C40;
   --background: #EBEBEB;
+  --background2: #eeeeeeb2;
   --shapes: #FFFFFF;
-  --text-title: #3D3D4D;
+  --text-title: #3D3D4D; 
   --text: #1C1C29;
   --text-light: #A09CB1;
+
+  background: var(--background2); 
 }
 
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 body {
-  font: 16px "Poppins", Arial, sans-serif;
   color: #121214;
+  font: 16px "Poppins", Arial, sans-serif;
 }
 
 input, textarea {
@@ -25,8 +29,8 @@ input, textarea {
 }
 
 .container {
-  max-width: 1120px;
   margin: 0 auto;
+  max-width: 1120px;
   padding: 2.5rem 1rem;
 }
 
